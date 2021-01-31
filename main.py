@@ -306,7 +306,7 @@ def print_and_respond(item : NlgPost):
     if 'text' in response_dict.keys() and check_text_slots(response_dict):
         response_dict = fill_slots(response_dict, item.tracker['slots'])
     if item.template in pause_list():
-        time.sleep(8) # Add delay between each explanation
+        delay = time.sleep(8) # Add delay between each explanation
         print(f"slept for {item.template}")
     return response_dict
 
