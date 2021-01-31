@@ -11,7 +11,6 @@ app = FastAPI()
 async def healthcheck():
     return 'Ecce Response Server is all ready to go!'
 
-
 def pause_list() -> List:
     """
     Returns a list of utterances after which to pause because of 
@@ -290,7 +289,6 @@ def fill_slots(response_dict : Dict, tracker_slot_dict : Dict):
     print(filled_response_dict['text'])
     return filled_response_dict
 
-
 class NlgPost(BaseModel):
     template: str
     arguments: Optional[Dict]
@@ -308,7 +306,7 @@ def print_and_respond(item : NlgPost):
     if 'text' in response_dict.keys() and check_text_slots(response_dict):
         response_dict = fill_slots(response_dict, item.tracker['slots'])
     if item.template in pause_list():
-        time.sleep(5) # Add delay between each explanation
+        time.sleep(8) # Add delay between each explanation
         print(f"slept for {item.template}")
     return response_dict
 
