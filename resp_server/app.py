@@ -7,6 +7,10 @@ from typing import List, Dict, Optional
 
 app = FastAPI()
 
+@app.get('/healthcheck', status_code=200)
+async def healthcheck():
+    return 'Ecce Response Server is all ready to go!'
+
 def look_up_response(template : str) -> Dict: 
     """
     Return a Dictionary ready to be sent back to Rasa
