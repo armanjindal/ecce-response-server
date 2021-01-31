@@ -11,6 +11,20 @@ app = FastAPI()
 async def healthcheck():
     return 'Ecce Response Server is all ready to go!'
 
+
+def pause_list() -> List:
+    """
+    Returns a list of utterances after which to pause because of 
+    Twillio bug in order of delivery for media messages 
+    """
+    pause_list = ['utter_ask_fractions_parts_mcq_1',
+    'utter_ask_fractions_parts_mcq_2',
+    'utter_ask_fractions_parts_mcq_3',
+    'utter_ask_fractions_wholes_nrq_3'
+    ]
+
+    return pause_list
+
 def look_up_response(template : str) -> Dict: 
     """
     Return a Dictionary ready to be sent back to Rasa
@@ -222,17 +236,17 @@ def look_up_response(template : str) -> Dict:
                                     'are not new :) So which will it be?'}],
     'utter_please_rephrase': [{'text': "I'm sorry, I didn't quite understand "
                                         'that. Could you rephrase?'}],
-    'utter_question_fractions_parts_mcq_1': [{'text': 'Tell us in fractions, what '
+    'utter_ask_fractions_parts_mcq_1': [{'text': 'Tell us in fractions, what '
                                                     'part of the whole (6 '
                                                     '{object_2}) did you get?'}],
-    'utter_question_fractions_parts_mcq_2': [{'text': '{friend_1} gives you their '
+    'utter_ask_fractions_parts_mcq_2': [{'text': '{friend_1} gives you their '
                                                     'share. Now you have 2 out '
                                                     'of the 3 equal parts. In '
                                                     'fractions we would say you '
                                                     'have ⅔ (two-thirds) of the '
                                                     'whole. Do you get more or '
                                                     'less than {friend_2}?'}],
-    'utter_question_fractions_wholes_nrq_3': [{'text': 'After splitting the '
+    'utter_ask_fractions_wholes_nrq_3': [{'text': 'After splitting the '
                                                         'mangoes evenly among your '
                                                         'family of 4, how many '
                                                         'mangoes does each person '
@@ -293,6 +307,9 @@ def print_and_respond(item : NlgPost):
     response_dict = look_up_response(item.template)
     if 'text' in response_dict.keys() and check_text_slots(response_dict):
         response_dict = fill_slots(response_dict, item.tracker['slots'])
+    if item.template in pause_list():
+        time.sleep(5) # Add delay between each explanation
+        print(f"slept for {item.template}")
     return response_dict
 
 @app.get("/users/{user_id}")
