@@ -249,7 +249,7 @@ def look_up_response(template : str) -> Dict:
 def check_text_slots(response_dict) -> bool:
     """ 
     Takes in response_dict and check if it contains 
-    string pattern '{' TEXT '}'.
+    string pattern '{' TEXT '}'
     Returns true if found, else false
     """
     if re.findall("(?<=\{)(.*?)(?=\})", response_dict['text']):
