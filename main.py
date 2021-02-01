@@ -139,8 +139,7 @@ def look_up_response(template : str) -> Dict:
                                                     'are going to talk about '
                                                     'sharing food.'}],
     'utter_fractions_parts_conclusion': [{'text': 'And that is PARTS!'}],
-    'utter_fractions_parts_mcq_1_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_parts_mcq_1_explanation.mp3',
-                                                'text': 'Listen to this!'}],
+    'utter_fractions_parts_mcq_1_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_parts_mcq_1_explanation.mp3'}],
     'utter_fractions_parts_mcq_1_options': [{'text': 'Lets try again. This time '
                                                     "I'll give you options - 1/6 "
                                                     ', 2/3 , 1/3, 1'}],
@@ -154,10 +153,8 @@ def look_up_response(template : str) -> Dict:
                                                         'people to share with, '
                                                         'now each person gets '
                                                         'more.'}],
-    'utter_fractions_parts_mcq_4_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_parts_mcq_4_explanation.mp3',
-                                                'text': 'Check this out'}],
-    'utter_fractions_parts_nrq_1_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_parts_nrq_1_explanation.ogg',
-                                                'text': 'Listen to this!'}],
+    'utter_fractions_parts_mcq_4_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_parts_mcq_4_explanation.mp3'}],
+    'utter_fractions_parts_nrq_1_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_parts_nrq_1_explanation.ogg'}],
     'utter_fractions_wholes_conclusion': [{'text': 'Did you realise that the '
                                                     'whole changed depending on '
                                                     "what you're splitting?!"}],
@@ -178,8 +175,7 @@ def look_up_response(template : str) -> Dict:
                                                     'parts!In fact, Fractions '
                                                     'are how you divide/split '
                                                     '*any whole*'}],
-    'utter_fractions_wholes_frq_1_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_wholes_frq_1_explanation.ogg',
-                                                'text': 'Hear why!'}],
+    'utter_fractions_wholes_frq_1_explanation': [{'image': 'https://ecceapi.herokuapp.com/media/audio/fractions_wholes_frq_1_explanation.ogg'}],
     'utter_fractions_wholes_introduction': [{'text': 'A farmer has a total of 12 '
                                                     'MANGOES 🥭🥭🥭 He needs to '
                                                     'split them into 3 boxes, '
