@@ -263,17 +263,17 @@ def look_up_response(template : str) -> Dict:
     # TODO: Handle error case when not found in list
     return response_dict[template][0]
 
-def check_text_slots(response_dict) -> bool:
+def check_text_slots(response_dict : Dict) -> bool:
     """ 
     Takes in response_dict and check if it contains 
     string pattern '{' TEXT '}'
     Returns true if found, else false
     """
     if re.findall("(?<=\{)(.*?)(?=\})", response_dict['text']):
-        print(f"Filling slot for {response_dict['text']}")
         return True
     else:
         False
+
 def fill_slots(response_dict : Dict, tracker_slot_dict : Dict):
     """ 
     Takes in a response_dict with text and the tracker after checking slots need to be filled
@@ -286,7 +286,6 @@ def fill_slots(response_dict : Dict, tracker_slot_dict : Dict):
     for slot in slots_to_fill:
         if slot in tracker_slot_dict.keys():
             filled_response_dict['text'] = filled_response_dict['text'].replace("{" + str(slot) + "}", str(tracker_slot_dict[slot]))
-    print(filled_response_dict['text'])
     return filled_response_dict
 
 class NlgPost(BaseModel):
@@ -300,14 +299,13 @@ def root():
     return {"message": "hello world again"}
 
 @app.post("/nlg/")
-def print_and_respond(item : NlgPost):
-    print(item.template)
+async def print_and_respond(item : NlgPost):
     response_dict = look_up_response(item.template)
     if 'text' in response_dict.keys() and check_text_slots(response_dict):
         response_dict = fill_slots(response_dict, item.tracker['slots'])
     if item.template in pause_list():
-        delay = time.sleep(8) # Add delay between each explanation
-        print(f"slept for {item.template}")
+        delay = await asyncio.sleep(5) # Add delay between each explanation
+        print(f"slept for {response_dict}")
     return response_dict
 
 @app.get("/users/{user_id}")
