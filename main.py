@@ -29,6 +29,7 @@ def look_up_response(template : str) -> Dict:
     Return a Dictionary ready to be sent back to Rasa
     """
     # TODO - Turn this into a DataBase Query
+    response = None
     response_dict = response_dict = {'utter_ask_first_form_age': [{'text': 'How old are you?'}],
     'utter_ask_first_form_userName': [{'text': 'What is your name?'}],
     'utter_ask_fractions_halves_frq_1': [{'text': '*WHY* do you think this split '
@@ -254,10 +255,21 @@ def look_up_response(template : str) -> Dict:
                                     '{err}'}],
     'utter_you_are_welcome': [{'text': 'You are welcome {userName}!'},
                             {'text': 'The pleasure is all mine!'},
-                            {'text': 'You are very welcome!! :)'}]
+                            {'text': 'You are very welcome!! :)'}],
+    'utter_faq/ask_name': [{'text': 'My name is Ecce :)'},
+                            {'text': 'You can call me Ecce!'}],
+    'utter_faq/bot_challenge': [{'text': 'I was made by a team of cool educators still in college! You can find out more at eccetech.com'}],
+    'utter_faq/ask_language': [{'text': 'I only text in English for now but I am going to be able to speak Hindi and Marathi soon!'}],
+    'utter_chitchat/exclaim_positive': [{'text': 'I know right!'}],
+    'utter_chitchat/exclaim_negative': [{'text': "I know it isn't easy, but you can do it :)"}],
+    'utter_chitchat/exclaim_difficult': [{'text': 'You are doing such a good job. I believe in you! You can always ask questions or for hints!'}]
     }
     # TODO: Handle error case when not found in list
-    return response_dict[template][0]
+    try: 
+        response = response_dict[template][0]
+    except:
+        print(f"Response template {template} not found")
+    return response
 
 def check_text_slots(response_dict : Dict) -> bool:
     """ 
@@ -295,13 +307,15 @@ def root():
     return {"message": "hello world again"}
 
 @app.post("/nlg/")
-async def print_and_respond(item : NlgPost):
+def print_and_respond(item : NlgPost):
     response_dict = look_up_response(item.template)
+    if not response_dict:
+        return {'text': 'Im lost for words!'} # Error Message when not in response
     if 'text' in response_dict.keys() and check_text_slots(response_dict):
         response_dict = fill_slots(response_dict, item.tracker['slots'])
-    if item.template in pause_list():
-        delay = await asyncio.sleep(5) # Add delay between each explanation
-        print(f"slept for {response_dict}")
+    # if item.template in pause_list():
+    #     delay = await asyncio.sleep(5) # Add delay between each explanation
+    #     print(f"slept for {response_dict}")
     return response_dict
 
 @app.get("/users/{user_id}")
